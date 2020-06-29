@@ -162,18 +162,18 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     frontier.push((start, [], 0), 0)
 
     while not frontier.isEmpty():
-        c_state, c_actions, c_cost = frontier.pop()
-        node = (c_state, c_cost)
-        explored.append(node)
+        c_state, c_action, c_cost = frontier.pop()
+        c_node = (c_state, c_cost)
+        explored.append(c_node)
 
         if problem.isGoalState(c_state):
-            return c_actions
+            return c_action
 
         else:
             for x in problem.getSuccessors(c_state):
                 s_state = x[0]
                 s_action = x[1]
-                nextAction = c_actions + [s_action]
+                nextAction = c_action + [s_action]
                 nextCost = problem.getCostOfActions(nextAction)
                 nextNode = (s_state, nextAction, nextCost)
 
@@ -187,7 +187,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
                 if not has_explored:
                     frontier.push(nextNode, nextCost + heuristic(s_state, problem))
-                    explored.append((s_state, nextCost))
+                    s_node = (s_state, nextCost)
+                    explored.append(s_node)
 
     util.raiseNotDefined()
 
