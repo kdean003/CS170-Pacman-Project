@@ -170,7 +170,7 @@ def uniformCostSearch(problem):
                 for e in explored:
                     e_state, e_cost = e
 
-                    if (x[0] == e_state) and (nextCost >= e_cost):
+                    if (s_state == e_state) and (nextCost >= e_cost):
                         has_explored = True
 
                 if not has_explored:
@@ -216,7 +216,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 for e in explored:
                     e_state, e_cost = e
 
-                    if (x[0] == e_state) and (nextCost >= e_cost):
+                    if (s_state == e_state) and (nextCost >= e_cost):
                         has_explored = True
 
                 if not has_explored:
