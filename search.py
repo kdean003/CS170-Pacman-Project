@@ -108,8 +108,7 @@ def depthFirstSearch(problem):
             if nextNode not in explored:
                 frontier.push(nextNode)
                 actions[nextNode] = actions[node] + [nextAction]
-                
-    util.raiseNotDefined()
+
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
@@ -138,7 +137,6 @@ def breadthFirstSearch(problem):
                 actions[nextNode] = actions[node] + [nextAction]
                 frontierSet.add(nextNode)
 
-    util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
@@ -176,8 +174,7 @@ def uniformCostSearch(problem):
                 if not has_explored:
                     frontier.push(nextNode, nextCost)
                     explored.append((s_state, nextCost))
-                    
-    util.raiseNotDefined()
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -223,8 +220,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                     frontier.push(nextNode, nextCost + heuristic(s_state, problem))
                     s_node = (s_state, nextCost)
                     explored.append(s_node)
-
-    util.raiseNotDefined()
 
 
 # Abbreviations
