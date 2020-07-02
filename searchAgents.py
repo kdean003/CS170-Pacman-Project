@@ -392,6 +392,44 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
         
+def findClosestPoint(location, goalArray):
+    """
+    Helper function for corners
+    """
+    
+    closestPoint = 0
+    closestPointCost = util.manhattanDistance( location, goalArray[0] )
+    
+    for j in range(len(goalArray)):
+        #calculate distance between current state to corner
+        cornerLocation = goalArray[j]
+        lengthToCorner = util.manhattanDistance( location, cornerLocation )
+        
+        if lengthToCorner < closestPointCost:
+            closestPoint = j
+            closestPointCost = lengthToCorner
+
+    return (closestPoint, closestPointCost)
+
+def findFarthestPoint(location, goalArray):
+    """
+    Helper function for corners
+    """
+    
+    farthestPoint = 0
+    farthestPointCost = util.manhattanDistance( location, goalArray[0] )
+    
+    for j in range(len(goalArray)):
+        #calculate distance between current state to corner
+        cornerLocation = goalArray[j]
+        lengthToCorner = util.manhattanDistance( location, cornerLocation )
+        
+        if lengthToCorner > farthestPointCost:
+            farthestPoint = j
+            farthestPointCost = lengthToCorner
+
+    return (farthestPoint, farthestPointCost)
+
 
 def cornersHeuristic(state, problem):
     """
@@ -409,7 +447,38 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
     "*** YOUR CODE HERE ***"
+    heuristic = 0
+    currentLocation = state[0]
+    cornersUnvisited = state[1]
     
+    #unvisited corners
+    unvisitedCorners = []
+    for i in range(len(cornersUnvisited)):
+        if not cornersUnvisited[i]:
+            unvisitedCorners.append(corners[i])
+
+    #calculate the distance from current node to all corner nodes
+    if len(unvisitedCorners) > 0:
+        closestPoint = findClosestPoint(currentLocation, unvisitedCorners)
+        farthestPoint = findFarthestPoint(currentLocation, unvisitedCorners)
+        
+        closestPointIndex = closestPoint[0]
+        farthestPointIndex = farthestPoint[0]
+
+        currentNode = problem.startingGameState
+        closestNode = unvisitedCorners[closestPointIndex]
+        farthestNode = unvisitedCorners[farthestPointIndex]
+
+        #mazeDistance returns maze distance btw 2 points: eg. mazeDistance( (2,4), (5,6), gameState)
+
+        #distance between current location and closest manhattan node
+        currentToClosest = util.manhattanDistance(currentLocation, closestNode)
+        #distance between closest manhattan node and farthest manhattan node
+        closestToFarthest = util.manhattanDistance(closestNode, farthestNode)
+
+        heuristic = currentToClosest + closestToFarthest
+    
+    return heuristic
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
